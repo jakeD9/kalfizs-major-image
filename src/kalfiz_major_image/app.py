@@ -92,6 +92,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "media_root": str(app_settings.media_root),
             "display_state": state_store.snapshot().model_dump(mode="json"),
             "kiosk_url": app_settings.kiosk_url,
+            "device_hostname": app_settings.device_hostname,
+            "mdns_hostname": app_settings.mdns_hostname,
+            "controller_url": app_settings.controller_url,
+            "display_public_url": app_settings.display_public_url,
         }
 
     @app.get("/api/media")

@@ -73,6 +73,7 @@ Environment variables are prefixed with `KALFIZ_`.
 - `KALFIZ_APP_PORT`
 - `KALFIZ_MEDIA_ROOT`
 - `KALFIZ_RUNTIME_MODE`
+- `KALFIZ_DEVICE_HOSTNAME`
 - `KALFIZ_KIOSK_URL`
 - `KALFIZ_GRID_DEFAULT_SIZE`
 - `KALFIZ_HOTSPOT_SSID`
@@ -84,6 +85,7 @@ Example:
 ```bash
 export KALFIZ_MEDIA_ROOT=/opt/kalfiz-major-image/media
 export KALFIZ_RUNTIME_MODE=runtime
+export KALFIZ_DEVICE_HOSTNAME=kalfiz
 export KALFIZ_KIOSK_URL=http://127.0.0.1:8000/display
 ```
 
@@ -109,7 +111,10 @@ uvicorn kalfiz_major_image.app:app --reload
 - Install dependencies into `/opt/kalfiz-major-image/.venv`
 - Copy `systemd/*.service` into `/etc/systemd/system/`
 - Set defaults in `/etc/default/kalfiz-major-image`
+- Run `sudo ./scripts/setup_mdns.sh kalfiz` to set the Pi hostname and enable `avahi-daemon`
 - Enable the units you need with `systemctl enable`
+
+Once connected to WiFi, the controller UI should be reachable from another device on the same network at `http://kalfiz.local:8000/control` by default. Change `KALFIZ_DEVICE_HOSTNAME` if you want a different `.local` name.
 
 Suggested enablement flow:
 

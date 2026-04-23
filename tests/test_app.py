@@ -27,6 +27,17 @@ def test_health_endpoint(tmp_path: Path) -> None:
     assert response.json() == {"status": "ok"}
 
 
+def test_status_includes_mdns_urls(tmp_path: Path) -> None:
+    client = make_client(tmp_path)
+    response = client.get("/api/status")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["device_hostname"] == "kalfiz"
+    assert payload["mdns_hostname"] == "kalfiz.local"
+    assert payload["controller_url"] == "http://kalfiz.local:8000/control"
+    assert payload["display_public_url"] == "http://kalfiz.local:8000/display"
+
+
 def test_media_crud_flow(tmp_path: Path) -> None:
     client = make_client(tmp_path)
 
