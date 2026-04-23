@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block body %}
+<main class="provision-shell">
+  <section class="provision-card">
+    <p class="eyebrow">Provisioning Mode</p>
+    <h1>Connect this Pi to WiFi</h1>
+    <p>Join the hotspot <strong>{{ settings.hotspot_ssid }}</strong> and open <code>{{ settings.hotspot_address }}</code> if this page is not already open.</p>
+    <form id="provision-form" class="stack">
+      <label>
+        WiFi name
+        <input id="ssid-input" type="text" placeholder="Home WiFi" required />
+      </label>
+      <label>
+        Password
+        <input id="password-input" type="password" placeholder="Optional if network is open" />
+      </label>
+      <button type="submit" class="primary">Save and connect</button>
+    </form>
+    <p id="provision-message" class="message">Network changes are disabled by default in local development.</p>
+  </section>
+</main>
+<script>
+  const form = document.getElementById("provision-form");
+  const message = document.getElementById("provision-message");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    message.textContent = "Attempting to connect...";
+    const response = await fetch("/api/provision/wifi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ssid: document.getElementById("ssid-input").value,
+        password: document.getElementById("password-input").value || null
+      })
+    });
+    const payload = await response.json();
+    message.textContent = payload.message;
+  });
+</script>
+{% endblock %}

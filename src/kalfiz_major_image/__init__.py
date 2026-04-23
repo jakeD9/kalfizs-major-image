@@ -1,0 +1,1 @@
+"""Kalfiz Major Image package."""

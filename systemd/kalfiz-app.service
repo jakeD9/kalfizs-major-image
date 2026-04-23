@@ -1,0 +1,16 @@
+[Unit]
+Description=Kalfiz Major Image app
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/kalfiz-major-image
+Environment=PYTHONPATH=/opt/kalfiz-major-image/src
+EnvironmentFile=-/etc/default/kalfiz-major-image
+ExecStart=/opt/kalfiz-major-image/scripts/start_app.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

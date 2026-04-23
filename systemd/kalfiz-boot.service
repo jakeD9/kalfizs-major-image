@@ -1,0 +1,12 @@
+[Unit]
+Description=Kalfiz Major Image boot mode selector
+After=network.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/default/kalfiz-major-image
+ExecStart=/opt/kalfiz-major-image/scripts/boot_mode.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

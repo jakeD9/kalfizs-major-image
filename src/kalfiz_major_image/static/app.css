@@ -1,0 +1,247 @@
+:root {
+  --bg: #0d1117;
+  --panel: rgba(12, 20, 31, 0.88);
+  --panel-alt: rgba(20, 28, 41, 0.96);
+  --border: rgba(151, 169, 196, 0.25);
+  --text: #edf4ff;
+  --muted: #a5b4cb;
+  --accent: #f0a33a;
+  --accent-strong: #ffcc70;
+  --danger: #d95c5c;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(240, 163, 58, 0.2), transparent 28%),
+    linear-gradient(180deg, #111926 0%, #090d14 100%);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1rem;
+  border-radius: 0.85rem;
+  transition: background 120ms ease, transform 120ms ease;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+button.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #111;
+  border: 0;
+}
+
+button.danger {
+  background: rgba(217, 92, 92, 0.16);
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: rgba(6, 10, 18, 0.85);
+  color: var(--text);
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  color: var(--accent-strong);
+}
+
+.shell,
+.provision-shell {
+  width: min(1320px, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 3rem;
+}
+
+.hero,
+.panel,
+.provision-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 1.4rem;
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.panel-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  margin-bottom: 1rem;
+}
+
+.panel,
+.provision-card {
+  padding: 1.25rem;
+}
+
+.panel-header,
+.path-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.panel-header {
+  margin-bottom: 1rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+}
+
+.lede,
+.message,
+.status-card p,
+.preview-card p,
+.display-empty p {
+  color: var(--muted);
+}
+
+.status-card,
+.preview-card {
+  background: var(--panel-alt);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.media-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.media-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.media-item.selected {
+  border-color: var(--accent-strong);
+  background: rgba(240, 163, 58, 0.12);
+}
+
+.stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.preview-surface {
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  border: 1px dashed var(--border);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.preview-surface img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.display-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.display-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.display-empty {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.32) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.32) 1px, transparent 1px);
+}
+
+.hidden {
+  display: none;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.toggle input {
+  width: auto;
+}
+
+.provision-shell {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.provision-card {
+  width: min(560px, calc(100vw - 2rem));
+}
+
+@media (max-width: 960px) {
+  .hero,
+  .panel-grid {
+    grid-template-columns: 1fr;
+  }
+}

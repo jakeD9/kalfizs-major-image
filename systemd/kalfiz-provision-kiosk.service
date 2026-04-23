@@ -1,0 +1,14 @@
+[Unit]
+Description=Kalfiz Major Image provisioning kiosk
+After=kalfiz-app.service graphical.target
+Requires=kalfiz-app.service
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/default/kalfiz-major-image
+ExecStart=/opt/kalfiz-major-image/scripts/start_provision_kiosk.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=graphical.target

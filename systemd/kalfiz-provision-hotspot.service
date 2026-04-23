@@ -1,0 +1,12 @@
+[Unit]
+Description=Kalfiz Major Image provisioning hotspot
+After=network.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/default/kalfiz-major-image
+ExecStart=/opt/kalfiz-major-image/scripts/start_provision_hotspot.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

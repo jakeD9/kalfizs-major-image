@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block body %}
+<main class="shell">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Controller</p>
+      <h1>Kalfiz Major Image</h1>
+      <p class="lede">Manage battlemap images on disk and push a confirmed selection to the fullscreen kiosk display.</p>
+    </div>
+    <div class="status-card">
+      <p>Mode: <strong id="runtime-mode">{{ settings.runtime_mode }}</strong></p>
+      <p>Media root: <code>{{ settings.media_root }}</code></p>
+      <p>Kiosk URL: <code>{{ settings.kiosk_url }}</code></p>
+    </div>
+  </section>
+
+  <section class="panel-grid">
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Library</h2>
+        <button id="refresh-media" type="button">Refresh</button>
+      </div>
+      <div class="path-row">
+        <button id="path-up" type="button">Up</button>
+        <code id="current-path">/</code>
+      </div>
+      <ul id="media-list" class="media-list"></ul>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>File Actions</h2>
+      </div>
+      <form id="upload-form" class="stack">
+        <label>
+          Upload image
+          <input id="upload-input" name="file" type="file" accept=".jpg,.jpeg,.png,.webp" />
+        </label>
+        <button type="submit">Upload</button>
+      </form>
+      <form id="folder-form" class="stack">
+        <label>
+          New folder
+          <input id="folder-name" type="text" placeholder="encounter-01" />
+        </label>
+        <button type="submit">Create folder</button>
+      </form>
+      <form id="rename-form" class="stack">
+        <label>
+          Rename selected
+          <input id="rename-input" type="text" placeholder="new-file-name" />
+        </label>
+        <button type="submit">Rename</button>
+      </form>
+      <button id="delete-button" type="button" class="danger">Delete selected</button>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Display State</h2>
+      </div>
+      <div class="preview-card">
+        <p>Selected file</p>
+        <strong id="selected-path">None</strong>
+      </div>
+      <div class="preview-card">
+        <p>Active file</p>
+        <strong id="active-path">None</strong>
+      </div>
+      <div class="stack">
+        <button id="queue-button" type="button">Queue selection</button>
+        <button id="apply-button" type="button" class="primary">Confirm on display</button>
+      </div>
+      <fieldset class="stack">
+        <legend>Grid overlay</legend>
+        <label class="toggle">
+          <input id="grid-enabled" type="checkbox" />
+          <span>Enabled</span>
+        </label>
+        <label>
+          Cell size
+          <input id="grid-size" type="number" min="8" max="512" step="1" />
+        </label>
+        <label>
+          Offset X
+          <input id="grid-offset-x" type="number" min="-4096" max="4096" step="1" />
+        </label>
+        <label>
+          Offset Y
+          <input id="grid-offset-y" type="number" min="-4096" max="4096" step="1" />
+        </label>
+      </fieldset>
+    </section>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2>Preview</h2>
+      <span id="message" class="message">Ready.</span>
+    </div>
+    <div id="preview" class="preview-surface">
+      <p>Select an image to preview it here before pushing to the kiosk display.</p>
+    </div>
+  </section>
+</main>
+<script src="{{ request.url_for('static', path='control.js') }}" defer></script>
+{% endblock %}

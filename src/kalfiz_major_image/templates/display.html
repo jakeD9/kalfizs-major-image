@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<main id="display-root" class="display-shell">
+  <div id="display-grid" class="grid-overlay hidden"></div>
+  <img id="display-image" class="display-image hidden" alt="Battlemap display" />
+  <div id="display-empty" class="display-empty">
+    <p>Kalfiz Major Image</p>
+    <h1>No image is active yet</h1>
+    <p>Use the controller UI on the local network to choose and confirm a battlemap.</p>
+  </div>
+</main>
+<script src="{{ request.url_for('static', path='display.js') }}" defer></script>
+{% endblock %}
