@@ -127,3 +127,12 @@ Items intentionally deferred from the current implementation:
 - Persisted display state across restarts
 - Dev container setup
 - Svelte frontend replacement for the current lightweight server-rendered UI
+
+
+## Raw improvements
+
+Status: `Not Started`
+
+- Reorganize files in repo (separation of concerns)
+- Point media dir at new path
+- Make UI more like macOS Finder app
