@@ -35,6 +35,7 @@ src/kalfiz_major_image/
   display_state.py
   static/
   templates/
+config/
 scripts/
 systemd/
 tests/
@@ -75,8 +76,10 @@ Environment variables are prefixed with `KALFIZ_`.
 - `KALFIZ_RUNTIME_MODE`
 - `KALFIZ_DEVICE_HOSTNAME`
 - `KALFIZ_KIOSK_URL`
+- `KALFIZ_PROVISION_URL`
 - `KALFIZ_GRID_DEFAULT_SIZE`
 - `KALFIZ_HOTSPOT_SSID`
+- `KALFIZ_HOTSPOT_PASSWORD`
 - `KALFIZ_HOTSPOT_ADDRESS`
 - `KALFIZ_ALLOW_NETWORK_MUTATIONS`
 
@@ -107,22 +110,69 @@ uvicorn kalfiz_major_image.app:app --reload
 
 - Target OS: Raspberry Pi OS Bookworm
 - Native deployment first: no Docker is required
-- Copy the repo to `/opt/kalfiz-major-image`
-- Install dependencies into `/opt/kalfiz-major-image/.venv`
-- Copy `systemd/*.service` into `/etc/systemd/system/`
-- Set defaults in `/etc/default/kalfiz-major-image`
-- Run `sudo ./scripts/setup_mdns.sh kalfiz` to set the Pi hostname and enable `avahi-daemon`
-- Enable the units you need with `systemctl enable`
+- The simplest setup path is the installer script below
+
+### One-command Pi install
+
+From a fresh Raspberry Pi OS Bookworm device:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y git
+git clone https://github.com/<your-account>/kalfiz-major-image.git
+cd kalfiz-major-image
+sudo ./scripts/install_pi.sh kalfiz
+sudo reboot
+```
+
+What the installer does:
+
+- installs required OS packages:
+  - `python3-venv`
+  - `chromium-browser`
+  - `network-manager`
+  - `avahi-daemon`
+- copies the project into `/opt/kalfiz-major-image`
+- creates `/etc/default/kalfiz-major-image` from [config/kalfiz-major-image.env.sample](/Users/duckworth/projects/kalfizs-major-image/config/kalfiz-major-image.env.sample:1) if needed
+- creates a virtualenv and installs the app into it
+- copies the `systemd` units into `/etc/systemd/system/`
+- sets the Pi hostname and enables mDNS
+- enables `NetworkManager`, `avahi-daemon`, and `kalfiz-boot.service`
+
+After reboot, the controller UI should be reachable at `http://kalfiz.local:8000/control` by default.
+
+### Manual Pi install
+
+If you want to do it yourself instead of the installer:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y python3-venv chromium-browser network-manager avahi-daemon
+sudo mkdir -p /opt/kalfiz-major-image
+sudo cp -a . /opt/kalfiz-major-image
+cd /opt/kalfiz-major-image
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e .
+sudo install -D -m 0644 config/kalfiz-major-image.env.sample /etc/default/kalfiz-major-image
+for service_file in systemd/*.service; do sudo install -m 0644 "$service_file" /etc/systemd/system/; done
+sudo ./scripts/setup_mdns.sh kalfiz
+sudo systemctl daemon-reload
+sudo systemctl enable NetworkManager avahi-daemon kalfiz-boot.service
+sudo reboot
+```
 
 Once connected to WiFi, the controller UI should be reachable from another device on the same network at `http://kalfiz.local:8000/control` by default. Change `KALFIZ_DEVICE_HOSTNAME` if you want a different `.local` name.
 
-Suggested enablement flow:
+### Environment file on the Pi
 
-- `kalfiz-app.service`
-- `kalfiz-kiosk.service`
-- `kalfiz-boot.service`
-- `kalfiz-provision-hotspot.service`
-- `kalfiz-provision-kiosk.service`
+The systemd units read environment variables from `/etc/default/kalfiz-major-image`. Use [config/kalfiz-major-image.env.sample](/Users/duckworth/projects/kalfizs-major-image/config/kalfiz-major-image.env.sample:1) as the template.
+
+Important note:
+- You generally only need to enable `kalfiz-boot.service`
+- `kalfiz-boot.service` decides whether to start runtime mode or provisioning mode
+- The app, kiosk, and hotspot services are started by that boot service as needed
 
 ## Current scope
 

@@ -8,6 +8,7 @@ Type=simple
 WorkingDirectory=/opt/kalfiz-major-image
 Environment=PYTHONPATH=/opt/kalfiz-major-image/src
 EnvironmentFile=-/etc/default/kalfiz-major-image
+EnvironmentFile=-/run/kalfiz-major-image/runtime.env
 ExecStart=/opt/kalfiz-major-image/scripts/start_app.sh
 Restart=always
 RestartSec=3

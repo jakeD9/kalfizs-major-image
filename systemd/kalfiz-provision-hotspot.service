@@ -5,6 +5,7 @@ After=network.target
 [Service]
 Type=oneshot
 EnvironmentFile=-/etc/default/kalfiz-major-image
+EnvironmentFile=-/run/kalfiz-major-image/runtime.env
 ExecStart=/opt/kalfiz-major-image/scripts/start_provision_hotspot.sh
 RemainAfterExit=yes
 

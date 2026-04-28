@@ -6,6 +6,7 @@ Requires=kalfiz-app.service
 [Service]
 Type=simple
 EnvironmentFile=-/etc/default/kalfiz-major-image
+EnvironmentFile=-/run/kalfiz-major-image/runtime.env
 ExecStart=/opt/kalfiz-major-image/scripts/start_kiosk.sh
 Restart=always
 RestartSec=3
